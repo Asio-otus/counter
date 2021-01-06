@@ -1,0 +1,23 @@
+.counter {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 200px;
+    height: 150px;
+
+    padding: 25px;
+
+    background-color: var(--white-color);
+
+    border-radius: var(--border-radius);
+
+    filter: var(--shadow)
+}
+
+.buttonWrapper {
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+}
