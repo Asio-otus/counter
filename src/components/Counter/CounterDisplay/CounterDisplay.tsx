@@ -1,14 +1,16 @@
 import React from "react";
 import s from './CounterDisplay.module.scss'
+import {limitValueType} from "../../../App";
 
 type CounterDisplayType = {
-    count: number;
+    count: number
+    limitValue: limitValueType
 }
 
 export function CounterDisplay (props: CounterDisplayType) {
 
     let counterStyle = () => {
-        return (props.count === 5) ? s.maxCount : '';
+        return (props.count === props.limitValue.maxValue) ? s.maxCount : '';
     }
 
     return (

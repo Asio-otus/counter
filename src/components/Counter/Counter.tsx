@@ -2,19 +2,24 @@ import React, {useState} from "react";
 import {CounterDisplay} from "./CounterDisplay/CounterDisplay";
 import s from './Counter.module.scss'
 import {CounterButton} from "./CounterButton/CounterButton";
+import {limitValueType} from "../../App";
 
-export function Counter() {
+export type CounterPropsType = {
+    count: number
+    setCount: (count: number) => void
+    limitValue: limitValueType
+}
 
-    let [count, setCount] = useState<number>(0)
+export function Counter(props: CounterPropsType) {
 
     let increment = () => {
-        if (count < 5) {
-            setCount(++count)
+        if (props.count < props.limitValue.maxValue) {
+            props.setCount(props.count + 1)
         }
     }
 
     let resetCount = () => {
-        setCount(0)
+        props.setCount(props.limitValue.startValue)
     }
 
     let buttonFunctions = {
@@ -24,10 +29,10 @@ export function Counter() {
 
     return (
         <div className={s.counter}>
-            <CounterDisplay count={count}/>
+            <CounterDisplay count={props.count} limitValue={props.limitValue}/>
             <div className={s.buttonWrapper}>
-                <CounterButton buttonName={'Increment'} count={count} buttonFunctions={buttonFunctions}/>
-                <CounterButton buttonName={'Reset'} count={count} buttonFunctions={buttonFunctions}/>
+                <CounterButton buttonName={'Increment'} count={props.count} buttonFunctions={buttonFunctions} limitValue={props.limitValue}/>
+                <CounterButton buttonName={'Reset'} count={props.count} buttonFunctions={buttonFunctions} limitValue={props.limitValue}/>
             </div>
         </div>
     )
