@@ -1,0 +1,24 @@
+@import "src/importableStyles/variables";
+@import "src/importableStyles/mixins";
+
+.counterDisplay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 1 60%;
+
+    font-weight: 300;
+
+    font-size: 3rem;
+
+    background-color: #ffffff;
+
+    border: 2px solid $medium-grey-color;
+    border-radius: $border-radius;
+
+    text-align: center;
+}
+
+.maxCount {
+    color: $alert-color;
+}

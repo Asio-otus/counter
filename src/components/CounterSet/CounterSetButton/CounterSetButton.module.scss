@@ -1,0 +1,6 @@
+@import "../../../importableStyles/variables";
+@import "../../../importableStyles/mixins";
+
+.btn {
+  @include btn;
+}

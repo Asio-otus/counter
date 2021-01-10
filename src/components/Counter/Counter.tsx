@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {CounterDisplay} from "./CounterDisplay/CounterDisplay";
-import {Button} from "./Button/Button";
-import s from './Counter.module.css'
+import s from './Counter.module.scss'
+import {CounterButton} from "./CounterButton/CounterButton";
 
 export function Counter() {
 
@@ -24,12 +24,10 @@ export function Counter() {
 
     return (
         <div className={s.counter}>
-            <div>
-                <CounterDisplay count={count}/>
-            </div>
+            <CounterDisplay count={count}/>
             <div className={s.buttonWrapper}>
-                <Button buttonName={'Increment'} count={count} buttonFunctions={buttonFunctions}/>
-                <Button buttonName={'Reset'} count={count} buttonFunctions={buttonFunctions}/>
+                <CounterButton buttonName={'Increment'} count={count} buttonFunctions={buttonFunctions}/>
+                <CounterButton buttonName={'Reset'} count={count} buttonFunctions={buttonFunctions}/>
             </div>
         </div>
     )

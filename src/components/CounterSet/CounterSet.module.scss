@@ -1,0 +1,50 @@
+@import "../../importableStyles/mixins";
+
+.counterSet {
+  @include frame;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 30vw;
+  height: 30vh;
+
+  padding: 25px;
+}
+
+.setSettingsWrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 60%;
+  justify-content: space-between;
+
+  width: 100%;
+
+  padding: 20px;
+
+  font-size: 1.4rem;
+
+  border: 2px solid $medium-grey-color;
+  border-radius: $border-radius;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input {
+  padding: .3em;
+  border: 2px solid $medium-grey-color;
+  border-radius: $border-radius;
+  font-size: 1.2rem;
+  width: 60%;
+}
+
+.buttonWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

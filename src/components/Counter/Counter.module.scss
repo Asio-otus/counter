@@ -1,0 +1,19 @@
+@import "../../importableStyles/mixins";
+
+.counter {
+    @include frame;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 30vw;
+    height: 30vh;
+
+    padding: 25px;
+}
+
+.buttonWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}

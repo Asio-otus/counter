@@ -1,5 +1,5 @@
 import React from "react";
-import s from './CounterDisplay.module.css'
+import s from './CounterDisplay.module.scss'
 
 type CounterDisplayType = {
     count: number;
@@ -12,6 +12,8 @@ export function CounterDisplay (props: CounterDisplayType) {
     }
 
     return (
-        <div className={`${s.counterDisplay} ${counterStyle()}`}>{props.count}</div>
+        <div className={s.counterDisplay}>
+            <span className={counterStyle()}>{props.count}</span>
+        </div>
     )
 }
