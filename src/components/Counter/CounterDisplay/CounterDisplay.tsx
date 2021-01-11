@@ -6,21 +6,31 @@ type CounterDisplayType = {
     count: number
     limitValue: limitValueType
     counterSet: boolean
+    tempLimitValue: limitValueType
 }
 
-export function CounterDisplay (props: CounterDisplayType) {
+export function CounterDisplay(props: CounterDisplayType) {
 
     let counterStyle = () => {
         return (props.count === props.limitValue.maxValue) ? s.maxCount : '';
     }
 
-    let displayValue = () => {
-        return !props.counterSet ? 'Press set to change settings' : props.count
+
+    let displayMessage = () => {
+        if (!props.counterSet) {
+            if (props.tempLimitValue.maxValue <= props.tempLimitValue.startValue) {
+                return 'Max value must be higher than start value'
+            } else {
+                return 'Press «Set» to change settings'
+            }
+        } else {
+            return props.count
+        }
     }
 
     return (
         <div className={s.counterDisplay}>
-            <span className={counterStyle()}>{displayValue()}</span>
+            <span className={counterStyle()}>{displayMessage()}</span>
         </div>
     )
 }

@@ -28,7 +28,11 @@ function App() {
 
     return (
         <div className={'app'}>
-            <Counter count={count} setCount={setCount} limitValue={limitValue} counterSet={counterSet}/>
+            <Counter count={count}
+                     setCount={setCount}
+                     limitValue={limitValue}
+                     counterSet={counterSet}
+                     tempLimitValue={tempLimitValue}/>
             <CounterSet limitValue={limitValue}
                         setLimitValue={setLimitValue}
                         counterLimitsSet={counterLimitsSet}

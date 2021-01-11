@@ -9,6 +9,7 @@ export type CounterPropsType = {
     setCount: (count: number) => void
     limitValue: limitValueType
     counterSet: boolean
+    tempLimitValue: limitValueType
 }
 
 export function Counter(props: CounterPropsType) {
@@ -30,10 +31,10 @@ export function Counter(props: CounterPropsType) {
 
     return (
         <div className={s.counter}>
-            <CounterDisplay counterSet={props.counterSet} count={props.count} limitValue={props.limitValue}/>
+            <CounterDisplay counterSet={props.counterSet} count={props.count} limitValue={props.limitValue} tempLimitValue={props.tempLimitValue}/>
             <div className={s.buttonWrapper}>
-                <CounterButton buttonName={'Increment'} count={props.count} buttonFunctions={buttonFunctions} limitValue={props.limitValue}/>
-                <CounterButton buttonName={'Reset'} count={props.count} buttonFunctions={buttonFunctions} limitValue={props.limitValue}/>
+                <CounterButton buttonName={'Increment'} count={props.count} buttonFunctions={buttonFunctions} limitValue={props.limitValue} counterSet={props.counterSet}/>
+                <CounterButton buttonName={'Reset'} count={props.count} buttonFunctions={buttonFunctions} limitValue={props.limitValue} counterSet={props.counterSet}/>
             </div>
         </div>
     )

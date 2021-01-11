@@ -39,7 +39,7 @@ export function CounterSet(props: CounterSetPropsType) {
                 </div>
             </div>
             <div className={s.buttonWrapper}>
-                <CounterSetButton counterLimitsSet={props.counterLimitsSet} />
+                <CounterSetButton tempLimitValue={props.tempLimitValue} counterLimitsSet={props.counterLimitsSet} />
             </div>
         </div>
     )
