@@ -9,6 +9,8 @@ export type CounterSetPropsType = {
     counterLimitsSet: () => void
     tempLimitValue: limitValueType
     setTempLimitValue: (limit: limitValueType) => void
+    counterSet: boolean
+    setCounterSet: (isSet: boolean) => void
 }
 
 export function CounterSet(props: CounterSetPropsType) {
@@ -16,10 +18,12 @@ export function CounterSet(props: CounterSetPropsType) {
 
     const changeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
         props.setTempLimitValue({...props.tempLimitValue, maxValue: +e.currentTarget.value})
+        props.setCounterSet(false)
     }
 
     const changeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
         props.setTempLimitValue({...props.tempLimitValue, startValue: +e.currentTarget.value})
+        props.setCounterSet(false)
     }
 
     return (

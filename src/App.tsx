@@ -12,23 +12,30 @@ export type limitValueType = {
 export type refreshCounterType = () => void
 
 function App() {
+    let [counterSet, setCounterSet] = useState<boolean>(true)
     let [tempLimitValue, setTempLimitValue] = useState<limitValueType>({maxValue: 5, startValue: 0})
-    let [limitValue, setLimitValue] = useState<limitValueType>({maxValue: tempLimitValue.maxValue, startValue: tempLimitValue.startValue})
+    let [limitValue, setLimitValue] = useState<limitValueType>({
+        maxValue: tempLimitValue.maxValue,
+        startValue: tempLimitValue.startValue
+    })
     let [count, setCount] = useState<number>(0)
 
     const counterLimitsSet = () => {
         setLimitValue({...tempLimitValue})
         setCount(tempLimitValue.startValue)
+        setCounterSet(true)
     }
 
     return (
         <div className={'app'}>
-            <Counter count={count} setCount={setCount} limitValue={limitValue}/>
+            <Counter count={count} setCount={setCount} limitValue={limitValue} counterSet={counterSet}/>
             <CounterSet limitValue={limitValue}
                         setLimitValue={setLimitValue}
                         counterLimitsSet={counterLimitsSet}
                         tempLimitValue={tempLimitValue}
-                        setTempLimitValue={setTempLimitValue}/>
+                        setTempLimitValue={setTempLimitValue}
+                        counterSet={counterSet}
+                        setCounterSet={setCounterSet}/>
         </div>
     );
 }
