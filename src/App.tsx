@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import logo from './logo.svg';
 import './App.scss';
 import {Counter} from "./components/Counter/Counter";
 import {CounterSet} from "./components/CounterSet/CounterSet";
+import s from "./components/Button/Button.module.scss";
 
 export type limitValueType = {
     maxValue: number
@@ -20,11 +20,40 @@ function App() {
     })
     let [count, setCount] = useState<number>(0)
 
+    // Functions
     const counterLimitsSet = () => {
         setLimitValue({...tempLimitValue})
         setCount(tempLimitValue.startValue)
         setCounterSet(true)
     }
+
+    const buttonIncrement = () => {
+        if (count < limitValue.maxValue) {
+            setCount(count + 1)
+        }
+    }
+
+    const buttonStyleIncrement = () => {
+        return (count === limitValue.maxValue) ? s.disabled : '';
+    }
+
+    const buttonResetCount = () => {
+        setCount(limitValue.startValue)
+    }
+
+    const buttonStyleReset = () => {
+        return (count === limitValue.startValue) ? s.disabled : '';
+    }
+
+    const buttonSetCounter = () => {
+        return (tempLimitValue.maxValue <= tempLimitValue.startValue) ? () => {} : () => counterLimitsSet()
+    }
+
+    const buttonStyleSetCounter = () => {
+        return (tempLimitValue.maxValue <= tempLimitValue.startValue) ? s.disabled : '';
+    }
+
+
 
     return (
         <div className={'app'}>
@@ -32,7 +61,9 @@ function App() {
                      setCount={setCount}
                      limitValue={limitValue}
                      counterSet={counterSet}
-                     tempLimitValue={tempLimitValue}/>
+                     tempLimitValue={tempLimitValue}
+                     buttonIncrement={buttonIncrement}
+                     buttonResetCount={buttonResetCount}/>
             <CounterSet limitValue={limitValue}
                         setLimitValue={setLimitValue}
                         counterLimitsSet={counterLimitsSet}

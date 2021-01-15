@@ -1,6 +1,6 @@
 import React from "react";
-import s from './CounterButton.module.scss'
-import {limitValueType} from "../../../App";
+import s from './Button.module.scss'
+import {limitValueType} from "../../App";
 
 type ButtonType = {
     buttonName: 'Increment' | 'Reset'
@@ -11,9 +11,11 @@ type ButtonType = {
     }
     limitValue: limitValueType
     counterSet: boolean
+    counterLimitsSet?: () => void | undefined
+    tempLimitValue?: limitValueType | undefined
 }
 
-export function CounterButton(props: ButtonType) {
+export function Button(props: ButtonType) {
 
     let buttonStyle = () => {
         if (!props.counterSet) {
