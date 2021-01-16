@@ -1,45 +1,32 @@
 import React from "react";
 import s from './Button.module.scss'
-import {limitValueType} from "../../App";
+import {buttonFunctionsType, buttonNameType} from "../../App";
 
-type ButtonType = {
-    buttonName: 'Increment' | 'Reset'
-    count: number
-    buttonFunctions: {
-        increment: () => void;
-        resetCount: () => void;
-    }
-    limitValue: limitValueType
-    counterSet: boolean
-    counterLimitsSet?: () => void | undefined
-    tempLimitValue?: limitValueType | undefined
+type ButtonPropsType = {
+    buttonName: buttonNameType
+    buttonFunctions: buttonFunctionsType
+    disabled: boolean
 }
 
-export function Button(props: ButtonType) {
+export function Button(props: ButtonPropsType) {
 
     let buttonStyle = () => {
-        if (!props.counterSet) {
-            return s.disabled
-        } else {
-            switch (props.buttonName) {
-                case "Increment": return (props.count === props.limitValue.maxValue) ? s.disabled : '';
-                case "Reset": return (props.count === props.limitValue.startValue) ? s.disabled : '';
-            }
-        }
+        return props.disabled ?  s.disabled : ''
     }
 
     let buttonFunc = () => {
-        if (!props.counterSet) {
-            return () => {}
-        } else {
-            switch (props.buttonName) {
-                case "Increment": return props.buttonFunctions.increment;
-                case "Reset": return props.buttonFunctions.resetCount;
-            }
+
+        switch (props.buttonName) {
+            case 'Increment':
+                return props.buttonFunctions.increment;
+            case 'Reset':
+                return props.buttonFunctions.resetCount;
+            case 'Set counter':
+                return props.buttonFunctions.SetCounter;
         }
     }
 
     return (
-        <button className={`${s.btn} ${buttonStyle()}`} onClick={buttonFunc()}>{props.buttonName}</button>
+        <button className={`${s.btn} ${buttonStyle()}`} onClick={buttonFunc()} disabled={props.disabled}>{props.buttonName}</button>
     )
 }

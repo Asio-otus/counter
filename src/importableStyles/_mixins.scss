@@ -39,6 +39,7 @@
   }
 
   &.disabled {
+    background-color: $light-grey-color;
     color: $medium-grey-color;
     cursor: unset;
 

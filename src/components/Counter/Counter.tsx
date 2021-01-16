@@ -1,35 +1,25 @@
-import React, {useState} from "react";
+import React from "react";
 import {CounterDisplay} from "./CounterDisplay/CounterDisplay";
 import s from './Counter.module.scss'
 import {Button} from "../Button/Button";
-import {limitValueType} from "../../App";
+import {buttonFunctionsType, buttonType, limitValueType} from "../../App";
 
 export type CounterPropsType = {
     count: number
-    setCount: (count: number) => void
     limitValue: limitValueType
-    counterSet: boolean
     tempLimitValue: limitValueType
-    buttonIncrement: () => void
-    buttonResetCount: () => void
+    buttons: Array<buttonType>
+    buttonFunctions: buttonFunctionsType
 }
 
 export function Counter(props: CounterPropsType) {
 
-    let buttonFunctions = {
-        increment: props.buttonIncrement,
-        resetCount: props.buttonResetCount
-    }
-
     return (
         <div className={s.counter}>
-            <CounterDisplay counterSet={props.counterSet} count={props.count} limitValue={props.limitValue}
-                            tempLimitValue={props.tempLimitValue}/>
+            <CounterDisplay count={props.count}/>
             <div className={s.buttonWrapper}>
-                <Button buttonName={'Increment'} count={props.count} buttonFunctions={buttonFunctions}
-                        limitValue={props.limitValue} counterSet={props.counterSet}/>
-                <Button buttonName={'Reset'} count={props.count} buttonFunctions={buttonFunctions}
-                        limitValue={props.limitValue} counterSet={props.counterSet}/>
+                <Button buttonName={props.buttons[0].buttonName} buttonFunctions={props.buttonFunctions} disabled={props.buttons[0].disabled} />
+                <Button buttonName={props.buttons[1].buttonName} buttonFunctions={props.buttonFunctions} disabled={props.buttons[1].disabled}/>
             </div>
         </div>
     )
