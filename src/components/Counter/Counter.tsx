@@ -11,13 +11,14 @@ export type CounterPropsType = {
     tempLimitValue: limitValueType
     buttons: Array<buttonType>
     buttonFunctions: buttonFunctionsType
+    reachedMax: boolean
 }
 
 export function Counter(props: CounterPropsType) {
 
     return (
         <div className={s.counter}>
-            <CounterDisplay count={props.count} error={props.error}/>
+            <CounterDisplay count={props.count} error={props.error} reachedMax={props.reachedMax}/>
             <div className={s.buttonWrapper}>
                 <Button buttonName={props.buttons[0].buttonName} buttonFunctions={props.buttonFunctions} disabled={props.buttons[0].disabled} />
                 <Button buttonName={props.buttons[1].buttonName} buttonFunctions={props.buttonFunctions} disabled={props.buttons[1].disabled}/>

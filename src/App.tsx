@@ -49,6 +49,8 @@ function App() {
         startValue: tempLimitValue.startValue
     })
 
+    let [reachedMax, setReachedMax] = useState<boolean>(false)
+
     let [count, setCount] = useState<number>(0)
 
     let [buttons, setButtons] = useState<Array<buttonType>>([
@@ -57,11 +59,14 @@ function App() {
         {buttonName: 'Set counter', disabled: false}
     ])
 
-    let [error, setError] = useState<errorType> ({status: false, massage: ''})
+    let [error, setError] = useState<errorType>({status: false, massage: ''})
 
     // Variables
     const errors: errorsObjType = {
-        error_1: {condition: tempLimitValue.maxValue <= tempLimitValue.startValue, message: 'Max value should be higher then start value'},
+        error_1: {
+            condition: tempLimitValue.maxValue <= tempLimitValue.startValue,
+            message: 'Max value should be higher then start value'
+        },
         error_2: {condition: tempLimitValue.startValue < 0, message: `Values shouldn't be negative`}
     }
 
@@ -128,6 +133,7 @@ function App() {
                 enableButton.Reset();
                 if (count === limitValue.maxValue - 1) {
                     disableButton.Increment()
+                    setReachedMax(true)
                 }
             }
         },
@@ -137,6 +143,7 @@ function App() {
             disableButton.Reset()
             enableButton.Increment()
             setButtons([...buttons])
+            setReachedMax(false)
         },
 
         SetCounter: () => {
@@ -157,9 +164,10 @@ function App() {
                      limitValue={limitValue}
                      tempLimitValue={tempLimitValue}
                      buttons={buttons}
-                     buttonFunctions={buttonFunctions}/>
+                     buttonFunctions={buttonFunctions}
+                     reachedMax={reachedMax}/>
             <CounterSet error={error}
-                tempLimitValue={tempLimitValue}
+                        tempLimitValue={tempLimitValue}
                         changeStartValue={changeStartValue}
                         changeMaxValue={changeMaxValue}
                         buttons={buttons}
