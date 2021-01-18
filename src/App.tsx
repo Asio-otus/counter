@@ -27,11 +27,22 @@ export type buttonFunctionsType = {
 }
 
 export type errorType = {
-    errorStatus: boolean
-    errorMassage: string
+    status: boolean
+    massage: string
+}
+
+export type errorsVarType = {
+    condition: any
+    message: string
+}
+
+export type errorsObjType = {
+    error_1: errorsVarType
+    error_2: errorsVarType
 }
 
 function App() {
+    // State
     let [tempLimitValue, setTempLimitValue] = useState<limitValueType>({maxValue: 5, startValue: 0})
     let [limitValue, setLimitValue] = useState<limitValueType>({
         maxValue: tempLimitValue.maxValue,
@@ -46,7 +57,13 @@ function App() {
         {buttonName: 'Set counter', disabled: false}
     ])
 
-    let [error, setError] = useState<errorType> ({errorStatus: false, errorMassage: ''})
+    let [error, setError] = useState<errorType> ({status: false, massage: ''})
+
+    // Variables
+    const errors: errorsObjType = {
+        error_1: {condition: tempLimitValue.maxValue <= tempLimitValue.startValue, message: 'Max value should be higher then start value'},
+        error_2: {condition: tempLimitValue.startValue < 0, message: `Values shouldn't be negative`}
+    }
 
     // Functions
     const disableButton = {
@@ -79,21 +96,6 @@ function App() {
         }
     }
 
-    const errors = {
-        error_1: {errorCondition: tempLimitValue.maxValue <= tempLimitValue.startValue, errorMessage: 'Max value should be higher then start value'},
-        error_2: {errorCondition: tempLimitValue.startValue < 0, errorMessage: `Values shouldn't be negative`}
-    }
-
-    // const settingRestrictions = () => {
-    //     if (errors.error_1.errorCondition || errors.error_2.errorCondition) {
-    //         setError({...error, errorStatus: true})
-    //         console.log('Error')
-    //     } else {
-    //         setError({...error, errorStatus: false})
-    //         console.log('No error')
-    //     }
-    // }
-
     const changeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
         setTempLimitValue({...tempLimitValue, startValue: +e.currentTarget.value})
         enableButton.SetCounter()
@@ -105,12 +107,18 @@ function App() {
     }
 
     const counterLimitsSet = () => {
+        setError({...error, status: false, massage: ''})
         setLimitValue({...tempLimitValue})
         setCount(tempLimitValue.startValue)
         disableButton.SetCounter()
         enableButton.Increment()
         disableButton.Reset()
-        // settingRestrictions()
+    }
+
+    const errorHandler = (errorsVar: errorsVarType) => {
+        setError({...error, status: true, massage: errorsVar.message})
+        disableButton.Increment()
+        disableButton.Reset()
     }
 
     const buttonFunctions = {
@@ -123,27 +131,35 @@ function App() {
                 }
             }
         },
+
         resetCount: () => {
             setCount(limitValue.startValue)
             disableButton.Reset()
             enableButton.Increment()
             setButtons([...buttons])
-
         },
+
         SetCounter: () => {
-            return (errors.error_1.errorCondition || errors.error_2.errorCondition) ? () => {
-            } : counterLimitsSet()
+            if (errors.error_1.condition) {
+                errorHandler(errors.error_1)
+            } else if (errors.error_2.condition) {
+                errorHandler(errors.error_2)
+            } else {
+                counterLimitsSet()
+            }
         }
     }
 
     return (
         <div className={'app'}>
             <Counter count={count}
+                     error={error}
                      limitValue={limitValue}
                      tempLimitValue={tempLimitValue}
                      buttons={buttons}
                      buttonFunctions={buttonFunctions}/>
-            <CounterSet tempLimitValue={tempLimitValue}
+            <CounterSet error={error}
+                tempLimitValue={tempLimitValue}
                         changeStartValue={changeStartValue}
                         changeMaxValue={changeMaxValue}
                         buttons={buttons}
