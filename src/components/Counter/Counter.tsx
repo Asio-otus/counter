@@ -1,5 +1,5 @@
 import React from "react";
-import s from './CounterHooksOnly.module.scss'
+import s from './Counter.module.scss'
 import {Button} from "../Button/Button";
 import {CounterDisplay} from "../CounterDisplay/CounterDisplay";
 
@@ -11,7 +11,7 @@ export type CounterPropsType = {
     disableResetButton: () => boolean
 }
 
-export const CounterHooksOnly: React.FC<CounterPropsType> = ({
+export const Counter: React.FC<CounterPropsType> = ({
      count,
      incrementCount,
      restartCount,

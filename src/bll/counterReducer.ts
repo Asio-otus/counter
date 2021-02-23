@@ -1,17 +1,32 @@
-type stateType = typeof counterInitialState
-type actionType =
+type StateType = typeof counterInitialState
+type ActionType =
     ReturnType<typeof incrementCountAC>
     | ReturnType<typeof restartCountAC>
-    | ReturnType<typeof setStartValueAC>
-    | ReturnType<typeof setEndValueAC>
+    | ReturnType<typeof changeStartValueAC>
+    | ReturnType<typeof changeEndValueAC>
+    | ReturnType<typeof setNewValuesAC>
+
+export type ErrorMassageType = {id: number, message: string}
+
+const errorMassages: Array<ErrorMassageType> = [
+    {id: 1, message: 'End value must be higher than start value'},
+    {id: 2, message: 'Start value must be higher than 0'}
+]
 
 export const counterInitialState = {
     currentValue: 0,
     startValue: 0,
+    tempStartValue: 0,
     endValue: 10,
+    tempEndValue: 10,
+    error: {
+        status: false,
+        errorMassages
+    },
+
 }
 
-export const counterReducer = (state: stateType, action: actionType) => {
+export const counterReducer = (state: StateType, action: ActionType) => {
     switch (action.type) {
         case 'INCREMENT':
             return {
@@ -24,17 +39,24 @@ export const counterReducer = (state: stateType, action: actionType) => {
                 currentValue: state.startValue
             }
         }
-        case 'SET_START_VALUE': {
+        case 'CHANGE_START_VALUE': {
             return {
                 ...state,
-                currentValue: action.newValue,
-                startValue: action.newValue,
+                tempStartValue: action.newValue,
             }
         }
-        case 'SET_END_VALUE': {
+        case 'CHANGE_END_VALUE': {
             return {
                 ...state,
-                endValue: action.newValue
+                tempEndValue: action.newValue
+            }
+        }
+        case 'SET_NEW_VALUES': {
+            return {
+                ...state,
+                currentValue: state.tempStartValue,
+                startValue: state.tempStartValue,
+                endValue: state.tempEndValue
             }
         }
         default:
@@ -50,10 +72,14 @@ export const restartCountAC = () => {
     return {type: 'RESTART'} as const
 }
 
-export const setStartValueAC = (newValue: number) => {
-    return {type: 'SET_START_VALUE', newValue} as const
+export const changeStartValueAC = (newValue: number) => {
+    return {type: 'CHANGE_START_VALUE', newValue} as const
 }
 
-export const setEndValueAC = (newValue: number) => {
-    return {type: 'SET_END_VALUE', newValue} as const
+export const changeEndValueAC = (newValue: number) => {
+    return {type: 'CHANGE_END_VALUE', newValue} as const
+}
+
+export const setNewValuesAC = () => {
+    return {type: 'SET_NEW_VALUES', } as const
 }

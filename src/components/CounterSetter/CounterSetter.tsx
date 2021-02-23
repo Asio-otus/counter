@@ -1,25 +1,49 @@
+import s from './CounterSetter.module.scss'
 import React, {ChangeEvent} from "react";
-import s from './CounterSet.module.scss'
+import {ErrorMassageType} from "../../bll/counterReducer";
+import {Button} from "../Button/Button";
 
-export function CounterSet() {
+type PropsType = {
+    startValue: number
+    endValue: number
+    error: {
+        status: boolean
+        errorMassages: Array<ErrorMassageType>
+    }
+    setStartValue: (newValue: number) => void
+    setEndValue: (newValue: number) => void
+    setNewValues: () => void
+}
 
-    // const errorStyle = () => props.error.status ? s.error : ''
-    //
-    // return (
-    //     <div className={s.counterSet}>
-    //         <div className={s.setSettingsWrapper}>
-    //             <div className={s.inputRow}>
-    //                 <span>Max value:</span>
-    //                 <input className={`${s.input} ${errorStyle()}`} type="number" value={props.tempLimitValue.maxValue} onChange={props.changeMaxValue}/>
-    //             </div>
-    //             <div className={s.inputRow}>
-    //                 <span>Start value:</span>
-    //                 <input className={`${s.input} ${errorStyle()}`} type="number" value={props.tempLimitValue.startValue} onChange={props.changeStartValue}/>
-    //             </div>
-    //         </div>
-    //         <div className={s.buttonWrapper}>
-    //             <Button buttonName={props.buttons[2].buttonName}  buttonFunctions={props.buttonFunctions} disabled={props.buttons[2].disabled}/>
-    //         </div>
-    //     </div>
-    // )
+export const CounterSetter: React.FC<PropsType> = ({startValue, endValue, error, setStartValue, setEndValue, setNewValues}) => {
+
+    const errorStyle = () => error.status ? s.error : ''
+
+    const changeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
+        setStartValue(+e.currentTarget.value)
+    }
+
+    const changeEndValue = (e: ChangeEvent<HTMLInputElement>) => {
+        setEndValue(+e.currentTarget.value)
+    }
+
+    return (
+        <div className={s.counterSet}>
+            <div className={s.setSettingsWrapper}>
+                <div className={s.inputRow}>
+                    <span>Start value:</span>
+                    <input className={`${s.input} ${errorStyle()}`} type="number" value={startValue} onChange={changeStartValue}/>
+                </div>
+                <div className={s.inputRow}>
+                    <span>Max value:</span>
+                    <input className={`${s.input} ${errorStyle()}`} type="number" value={endValue} onChange={changeEndValue}/>
+                </div>
+            </div>
+            <div className={s.buttonWrapper}>
+                <Button onClick={setNewValues}>
+                    Set new values
+                </Button>
+            </div>
+        </div>
+    )
 }
