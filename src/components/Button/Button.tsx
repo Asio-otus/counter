@@ -1,32 +1,25 @@
-import React from "react";
+import React, {ButtonHTMLAttributes, DetailedHTMLProps} from "react";
 import s from './Button.module.scss'
-import {buttonFunctionsType, buttonNameType} from "../../App";
 
-type ButtonPropsType = {
-    buttonName: buttonNameType
-    buttonFunctions: buttonFunctionsType
-    disabled: boolean
+type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+
+type PropsType = DefaultButtonPropsType & {
+    disabled?: boolean
 }
 
-export function Button(props: ButtonPropsType) {
+export const Button: React.FC<PropsType> = ({
+    disabled,
+    ...restProps
+}) => {
 
     let buttonStyle = () => {
-        return props.disabled ?  s.disabled : ''
-    }
-
-    let buttonFunc = () => {
-
-        switch (props.buttonName) {
-            case 'Increment':
-                return props.buttonFunctions.increment;
-            case 'Reset':
-                return props.buttonFunctions.resetCount;
-            case 'Set counter':
-                return props.buttonFunctions.SetCounter;
-        }
+        return disabled ? s.disabled : ''
     }
 
     return (
-        <button className={`${s.btn} ${buttonStyle()}`} onClick={buttonFunc()} disabled={props.disabled}>{props.buttonName}</button>
+        <button className={`${s.btn} ${buttonStyle()}`}
+                disabled={disabled}
+                {...restProps}
+        />
     )
 }
