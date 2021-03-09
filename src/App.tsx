@@ -1,7 +1,7 @@
-import {CounterContainerHooks} from "./pages/CounterContainerHooks";
+import {CounterContainer} from "./pages/CounterContainer";
 
 export const App = () => {
     return (
-        <CounterContainerHooks/>
+        <CounterContainer/>
     )
 }

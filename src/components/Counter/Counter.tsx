@@ -2,9 +2,12 @@ import React from "react";
 import s from './Counter.module.scss'
 import {Button} from "../Button/Button";
 import {CounterDisplay} from "../CounterDisplay/CounterDisplay";
+import {ErrorStateType} from "../../bll/errorReducer";
 
 export type CounterPropsType = {
-    count: number
+    currentValue: number
+    maxValue: number
+    error: ErrorStateType
     incrementCount: () => void
     restartCount: () => void
     disableIncrementButton: () => boolean
@@ -12,8 +15,10 @@ export type CounterPropsType = {
 }
 
 export const Counter: React.FC<CounterPropsType> = ({
-     count,
+     currentValue,
      incrementCount,
+     error,
+     maxValue,
      restartCount,
      disableIncrementButton,
      disableResetButton
@@ -21,7 +26,7 @@ export const Counter: React.FC<CounterPropsType> = ({
 
     return (
         <div className={s.counter}>
-            <CounterDisplay count={count}/>
+            <CounterDisplay currentValue={currentValue} error={error} maxValue={maxValue}/>
             <div className={s.buttonWrapper}>
                 <Button onClick={incrementCount} disabled={disableIncrementButton()}>
                     Increment

@@ -1,15 +1,12 @@
 import s from './CounterSetter.module.scss'
 import React, {ChangeEvent} from "react";
-import {ErrorMassageType} from "../../bll/counterReducer";
 import {Button} from "../Button/Button";
+import {ErrorStateType} from "../../bll/errorReducer";
 
 type PropsType = {
     startValue: number
     endValue: number
-    error: {
-        status: boolean
-        errorMassages: Array<ErrorMassageType>
-    }
+    error: ErrorStateType
     setStartValue: (newValue: number) => void
     setEndValue: (newValue: number) => void
     setNewValues: () => void

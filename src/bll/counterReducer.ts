@@ -1,4 +1,5 @@
-type StateType = typeof counterInitialState
+export type CounterStateType = typeof counterInitialState
+
 type ActionType =
     ReturnType<typeof incrementCountAC>
     | ReturnType<typeof restartCountAC>
@@ -6,27 +7,15 @@ type ActionType =
     | ReturnType<typeof changeEndValueAC>
     | ReturnType<typeof setNewValuesAC>
 
-export type ErrorMassageType = {id: number, message: string}
-
-const errorMassages: Array<ErrorMassageType> = [
-    {id: 1, message: 'End value must be higher than start value'},
-    {id: 2, message: 'Start value must be higher than 0'}
-]
-
 export const counterInitialState = {
     currentValue: 0,
     startValue: 0,
+    maxValue: 10,
     tempStartValue: 0,
-    endValue: 10,
-    tempEndValue: 10,
-    error: {
-        status: false,
-        errorMassages
-    },
-
+    tempMaxValue: 10,
 }
 
-export const counterReducer = (state: StateType, action: ActionType) => {
+export const counterReducer = (state: CounterStateType = counterInitialState, action: ActionType) => {
     switch (action.type) {
         case 'INCREMENT':
             return {
@@ -48,7 +37,7 @@ export const counterReducer = (state: StateType, action: ActionType) => {
         case 'CHANGE_END_VALUE': {
             return {
                 ...state,
-                tempEndValue: action.newValue
+                tempMaxValue: action.newValue
             }
         }
         case 'SET_NEW_VALUES': {
@@ -56,7 +45,7 @@ export const counterReducer = (state: StateType, action: ActionType) => {
                 ...state,
                 currentValue: state.tempStartValue,
                 startValue: state.tempStartValue,
-                endValue: state.tempEndValue
+                maxValue: state.tempMaxValue
             }
         }
         default:

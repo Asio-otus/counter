@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import s from './CounterDisplay.module.scss'
+import {ErrorStateType} from "../../bll/errorReducer";
 
 export type errorType = {
     status: boolean
@@ -7,23 +8,23 @@ export type errorType = {
 }
 
 type PropsType = {
-    count: number
-    // error: errorType
-    // reachedMax?: boolean
+    currentValue: number
+    maxValue: number
+    error: ErrorStateType
 }
 
-export const CounterDisplay: React.FC<PropsType> =({count}) => {
+export const CounterDisplay: React.FC<PropsType> =({currentValue, error, maxValue}) => {
 
-    // const display = () => props.error.status ? props.error.massage : props.count
-    // const errorStyle = () => props.error.status ? s.error : ''
-    // const maxStyle = () => props.reachedMax ? s.maxCount : ''
+    const display = () => error.status ? error.errorMassage : currentValue
+    const errorStyle = () => error.status ? s.error : ''
+    // const maxStyle = () => reachedMax ? s.maxCount : ''
 
     return (
         // <div className={`${s.counterDisplay} ${maxStyle()} ${errorStyle()}`}>
         //     <span>{display()}</span>
         // </div>
         <div className={s.counterDisplay}>
-            <span>{count}</span>
+            <span>{currentValue}</span>
         </div>
     )
 }
