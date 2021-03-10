@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Counter} from "../components/Counter/Counter";
 import s from './CounterPage.module.scss'
 import {
     incrementCountAC,
     restartCountAC, changeEndValueAC,
-    changeStartValueAC, setNewValuesAC, CounterStateType
+    changeStartValueAC, CounterStateType, reachedMax, applyNewValues
 } from "../bll/counterReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../bll/store";
-import {ErrorStateType} from "../bll/errorReducer";
+import {clearError, ErrorStateType, MaxValueTooLow, StartValueBelowZero} from "../bll/errorReducer";
 import {CounterSetter} from "../components/CounterSetter/CounterSetter";
 
 export const CounterContainer = () => {
@@ -17,12 +17,27 @@ export const CounterContainer = () => {
     const counter = useSelector<RootStateType, CounterStateType>(state => state.counter)
     const error = useSelector<RootStateType, ErrorStateType>(state => state.error)
 
+    useEffect(() => {
+        if (counter.tempStartValue < 0) {
+            dispatch(StartValueBelowZero())
+        } else if (counter.tempMaxValue <= counter.tempStartValue) {
+            dispatch(MaxValueTooLow())
+        } else {
+            dispatch(clearError())
+        }
+    }, [counter])
+
     const incrementCount = () => {
         dispatch(incrementCountAC())
+        if (counter.currentValue === counter.maxValue - 1) {
+            console.log('max')
+            dispatch(reachedMax(true))
+        }
     }
 
     const restartCount = () => {
         dispatch(restartCountAC())
+        dispatch(reachedMax(false))
     }
 
     const setStartValue = (newValue: number) => {
@@ -34,33 +49,27 @@ export const CounterContainer = () => {
     }
 
     const setNewValues = () => {
-        dispatch(setNewValuesAC())
-    }
-
-    const disableIncrementButton = () => {
-        return counter.currentValue === counter.maxValue;
-    }
-
-    const disableResetButton = () => {
-        return counter.currentValue === counter.startValue;
+        dispatch(applyNewValues())
     }
 
     return (
         <div className={s.counterPage}>
             <Counter currentValue={counter.currentValue}
                      maxValue={counter.maxValue}
+                     reachedMax={counter.reachedMax}
+                     atTheStartValue={counter.atTheStartValue}
                      incrementCount={incrementCount}
                      error={error}
-                     restartCount={restartCount}
-                     disableIncrementButton={disableIncrementButton}
-                     disableResetButton={disableResetButton}/>
+                     restartCount={restartCount}/>
 
             <CounterSetter startValue={counter.tempStartValue}
                            endValue={counter.tempMaxValue}
-                           error={error}
+                           settingsApplied={counter.settingsApplied}
+                           errorStatus={error.status}
                            setStartValue={setStartValue}
                            setEndValue={setEndValue}
                            setNewValues={setNewValues}/>
+
         </div>
     )
 }

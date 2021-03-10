@@ -8,10 +8,10 @@ export type CounterPropsType = {
     currentValue: number
     maxValue: number
     error: ErrorStateType
+    reachedMax: boolean
+    atTheStartValue: boolean
     incrementCount: () => void
     restartCount: () => void
-    disableIncrementButton: () => boolean
-    disableResetButton: () => boolean
 }
 
 export const Counter: React.FC<CounterPropsType> = ({
@@ -19,19 +19,19 @@ export const Counter: React.FC<CounterPropsType> = ({
      incrementCount,
      error,
      maxValue,
+     atTheStartValue,
      restartCount,
-     disableIncrementButton,
-     disableResetButton
+     reachedMax,
 }) => {
 
     return (
         <div className={s.counter}>
-            <CounterDisplay currentValue={currentValue} error={error} maxValue={maxValue}/>
+            <CounterDisplay currentValue={currentValue} error={error} maxValue={maxValue} reachedMax={reachedMax}/>
             <div className={s.buttonWrapper}>
-                <Button onClick={incrementCount} disabled={disableIncrementButton()}>
+                <Button onClick={incrementCount} disabled={reachedMax || error.status}>
                     Increment
                 </Button>
-                <Button onClick={restartCount} disabled={disableResetButton()}>
+                <Button onClick={restartCount} disabled={atTheStartValue || error.status}>
                     Restart
                 </Button>
             </div>

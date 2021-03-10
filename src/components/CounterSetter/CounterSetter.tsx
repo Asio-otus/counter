@@ -1,20 +1,20 @@
 import s from './CounterSetter.module.scss'
 import React, {ChangeEvent} from "react";
 import {Button} from "../Button/Button";
-import {ErrorStateType} from "../../bll/errorReducer";
 
 type PropsType = {
     startValue: number
     endValue: number
-    error: ErrorStateType
+    errorStatus: boolean
+    settingsApplied: boolean
     setStartValue: (newValue: number) => void
     setEndValue: (newValue: number) => void
     setNewValues: () => void
 }
 
-export const CounterSetter: React.FC<PropsType> = ({startValue, endValue, error, setStartValue, setEndValue, setNewValues}) => {
+export const CounterSetter: React.FC<PropsType> = ({startValue, endValue, errorStatus, setStartValue, setEndValue, setNewValues, settingsApplied}) => {
 
-    const errorStyle = () => error.status ? s.error : ''
+    const errorStyle = () => errorStatus ? s.error : ''
 
     const changeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
         setStartValue(+e.currentTarget.value)
@@ -37,8 +37,8 @@ export const CounterSetter: React.FC<PropsType> = ({startValue, endValue, error,
                 </div>
             </div>
             <div className={s.buttonWrapper}>
-                <Button onClick={setNewValues}>
-                    Set new values
+                <Button onClick={setNewValues} disabled={errorStatus || settingsApplied}>
+                    Apply settings
                 </Button>
             </div>
         </div>

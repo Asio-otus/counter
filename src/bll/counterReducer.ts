@@ -5,9 +5,13 @@ type ActionType =
     | ReturnType<typeof restartCountAC>
     | ReturnType<typeof changeStartValueAC>
     | ReturnType<typeof changeEndValueAC>
-    | ReturnType<typeof setNewValuesAC>
+    | ReturnType<typeof applyNewValues>
+    | ReturnType<typeof reachedMax>
 
 export const counterInitialState = {
+    settingsApplied: true,
+    atTheStartValue: true,
+    reachedMax: false,
     currentValue: 0,
     startValue: 0,
     maxValue: 10,
@@ -20,32 +24,43 @@ export const counterReducer = (state: CounterStateType = counterInitialState, ac
         case 'INCREMENT':
             return {
                 ...state,
-                currentValue: state.currentValue + 1
+                currentValue: state.currentValue + 1,
+                atTheStartValue: false
             }
         case 'RESTART': {
             return {
                 ...state,
-                currentValue: state.startValue
+                currentValue: state.startValue,
+                atTheStartValue: true
             }
         }
         case 'CHANGE_START_VALUE': {
             return {
                 ...state,
                 tempStartValue: action.newValue,
+                settingsApplied: false
             }
         }
         case 'CHANGE_END_VALUE': {
             return {
                 ...state,
-                tempMaxValue: action.newValue
+                tempMaxValue: action.newValue,
+                settingsApplied: false
             }
         }
-        case 'SET_NEW_VALUES': {
+        case 'APPLY_SETTINGS': {
             return {
                 ...state,
                 currentValue: state.tempStartValue,
                 startValue: state.tempStartValue,
-                maxValue: state.tempMaxValue
+                maxValue: state.tempMaxValue,
+                settingsApplied: true
+            }
+        }
+        case 'REACHED_MAX': {
+            return {
+                ...state,
+                reachedMax: action.isMax
             }
         }
         default:
@@ -69,6 +84,10 @@ export const changeEndValueAC = (newValue: number) => {
     return {type: 'CHANGE_END_VALUE', newValue} as const
 }
 
-export const setNewValuesAC = () => {
-    return {type: 'SET_NEW_VALUES', } as const
+export const applyNewValues = () => {
+    return {type: 'APPLY_SETTINGS'} as const
+}
+
+export const reachedMax = (isMax: boolean) => {
+    return {type: 'REACHED_MAX', isMax} as const
 }

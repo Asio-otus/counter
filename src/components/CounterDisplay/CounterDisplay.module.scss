@@ -24,5 +24,6 @@
 }
 
 .error {
-    @include errorStyle
+    @include errorStyle;
+    font-size: 2rem;
 }

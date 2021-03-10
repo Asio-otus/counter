@@ -5,6 +5,7 @@ export type ErrorStateType = {
 
 type ActionType = ReturnType<typeof MaxValueTooLow>
     | ReturnType<typeof StartValueBelowZero>
+    | ReturnType<typeof clearError>
 
 const errorsInitialState: ErrorStateType = {
     status: false,
@@ -13,13 +14,23 @@ const errorsInitialState: ErrorStateType = {
 
 export const errorReducer = (state: ErrorStateType = errorsInitialState, action: ActionType) => {
     switch (action.type) {
-        case 'MAX-VALUE-TOO-LOW':
+        case 'MAX_VALUE_TOO_LOW':
             return {
                 ...state,
+                status: true,
+                errorMassage: 'Max value must be higher the start value'
             }
-        case 'START-VALUE-BLOW-ZERO':
+        case 'START_VALUE_IS_NEGATIVE':
             return {
                 ...state,
+                status: true,
+                errorMassage: 'Start value cannot be negative'
+            }
+        case 'CLEAR_ERROR':
+            return {
+                ...state,
+                status: false,
+                errorMassage: ''
             }
         default:
             return state
@@ -27,9 +38,13 @@ export const errorReducer = (state: ErrorStateType = errorsInitialState, action:
 }
 
 export const MaxValueTooLow = () => {
-    return {type: 'MAX-VALUE-TOO-LOW'} as const
+    return {type: 'MAX_VALUE_TOO_LOW'} as const
 }
 
 export const StartValueBelowZero = () => {
-    return {type: 'START-VALUE-BLOW-ZERO'} as const
+    return {type: 'START_VALUE_IS_NEGATIVE'} as const
+}
+
+export const clearError = () => {
+    return {type: 'CLEAR_ERROR'} as const
 }
