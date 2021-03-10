@@ -1,3 +1,5 @@
+import {Dispatch} from "redux";
+
 export type CounterStateType = typeof counterInitialState
 
 type ActionType =
@@ -5,7 +7,7 @@ type ActionType =
     | ReturnType<typeof restartCountAC>
     | ReturnType<typeof changeStartValueAC>
     | ReturnType<typeof changeEndValueAC>
-    | ReturnType<typeof applyNewValues>
+    | ReturnType<typeof applyNewValuesAC>
     | ReturnType<typeof reachedMax>
 
 export const counterInitialState = {
@@ -31,7 +33,8 @@ export const counterReducer = (state: CounterStateType = counterInitialState, ac
             return {
                 ...state,
                 currentValue: state.startValue,
-                atTheStartValue: true
+                atTheStartValue: true,
+                reachedMax: false
             }
         }
         case 'CHANGE_START_VALUE': {
@@ -54,7 +57,9 @@ export const counterReducer = (state: CounterStateType = counterInitialState, ac
                 currentValue: state.tempStartValue,
                 startValue: state.tempStartValue,
                 maxValue: state.tempMaxValue,
-                settingsApplied: true
+                settingsApplied: true,
+                reachedMax: false,
+                atTheStartValue: true
             }
         }
         case 'REACHED_MAX': {
@@ -84,7 +89,7 @@ export const changeEndValueAC = (newValue: number) => {
     return {type: 'CHANGE_END_VALUE', newValue} as const
 }
 
-export const applyNewValues = () => {
+export const applyNewValuesAC = () => {
     return {type: 'APPLY_SETTINGS'} as const
 }
 

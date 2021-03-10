@@ -3,8 +3,8 @@ export type ErrorStateType = {
     errorMassage: string
 }
 
-type ActionType = ReturnType<typeof MaxValueTooLow>
-    | ReturnType<typeof StartValueBelowZero>
+type ActionType = ReturnType<typeof MaxValueTooLowError>
+    | ReturnType<typeof StartValueIsBelowZeroError>
     | ReturnType<typeof clearError>
 
 const errorsInitialState: ErrorStateType = {
@@ -37,11 +37,11 @@ export const errorReducer = (state: ErrorStateType = errorsInitialState, action:
     }
 }
 
-export const MaxValueTooLow = () => {
+export const MaxValueTooLowError = () => {
     return {type: 'MAX_VALUE_TOO_LOW'} as const
 }
 
-export const StartValueBelowZero = () => {
+export const StartValueIsBelowZeroError = () => {
     return {type: 'START_VALUE_IS_NEGATIVE'} as const
 }
 

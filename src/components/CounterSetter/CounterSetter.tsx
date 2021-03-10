@@ -8,11 +8,11 @@ type PropsType = {
     errorStatus: boolean
     settingsApplied: boolean
     setStartValue: (newValue: number) => void
-    setEndValue: (newValue: number) => void
-    setNewValues: () => void
+    setMaxValue: (newValue: number) => void
+    applyNewValues: () => void
 }
 
-export const CounterSetter: React.FC<PropsType> = ({startValue, endValue, errorStatus, setStartValue, setEndValue, setNewValues, settingsApplied}) => {
+export const CounterSetter: React.FC<PropsType> = ({startValue, endValue, errorStatus, setStartValue, setMaxValue, applyNewValues, settingsApplied}) => {
 
     const errorStyle = () => errorStatus ? s.error : ''
 
@@ -21,7 +21,7 @@ export const CounterSetter: React.FC<PropsType> = ({startValue, endValue, errorS
     }
 
     const changeEndValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setEndValue(+e.currentTarget.value)
+        setMaxValue(+e.currentTarget.value)
     }
 
     return (
@@ -37,7 +37,7 @@ export const CounterSetter: React.FC<PropsType> = ({startValue, endValue, errorS
                 </div>
             </div>
             <div className={s.buttonWrapper}>
-                <Button onClick={setNewValues} disabled={errorStatus || settingsApplied}>
+                <Button onClick={applyNewValues} disabled={errorStatus || settingsApplied}>
                     Apply settings
                 </Button>
             </div>

@@ -4,11 +4,11 @@ import s from './CounterPage.module.scss'
 import {
     incrementCountAC,
     restartCountAC, changeEndValueAC,
-    changeStartValueAC, CounterStateType, reachedMax, applyNewValues
+    changeStartValueAC, CounterStateType, reachedMax, applyNewValuesAC
 } from "../bll/counterReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../bll/store";
-import {clearError, ErrorStateType, MaxValueTooLow, StartValueBelowZero} from "../bll/errorReducer";
+import {clearError, ErrorStateType, MaxValueTooLowError, StartValueIsBelowZeroError} from "../bll/errorReducer";
 import {CounterSetter} from "../components/CounterSetter/CounterSetter";
 
 export const CounterContainer = () => {
@@ -19,9 +19,9 @@ export const CounterContainer = () => {
 
     useEffect(() => {
         if (counter.tempStartValue < 0) {
-            dispatch(StartValueBelowZero())
+            dispatch(StartValueIsBelowZeroError())
         } else if (counter.tempMaxValue <= counter.tempStartValue) {
-            dispatch(MaxValueTooLow())
+            dispatch(MaxValueTooLowError())
         } else {
             dispatch(clearError())
         }
@@ -29,27 +29,26 @@ export const CounterContainer = () => {
 
     const incrementCount = () => {
         dispatch(incrementCountAC())
+        // I Think, I need to find a better solution.
         if (counter.currentValue === counter.maxValue - 1) {
-            console.log('max')
             dispatch(reachedMax(true))
         }
     }
 
     const restartCount = () => {
         dispatch(restartCountAC())
-        dispatch(reachedMax(false))
     }
 
     const setStartValue = (newValue: number) => {
         dispatch(changeStartValueAC(newValue))
     }
 
-    const setEndValue = (newValue: number) => {
+    const setMaxValue = (newValue: number) => {
         dispatch(changeEndValueAC(newValue))
     }
 
-    const setNewValues = () => {
-        dispatch(applyNewValues())
+    const applyNewValues = () => {
+        dispatch(applyNewValuesAC())
     }
 
     return (
@@ -67,8 +66,8 @@ export const CounterContainer = () => {
                            settingsApplied={counter.settingsApplied}
                            errorStatus={error.status}
                            setStartValue={setStartValue}
-                           setEndValue={setEndValue}
-                           setNewValues={setNewValues}/>
+                           setMaxValue={setMaxValue}
+                           applyNewValues={applyNewValues}/>
 
         </div>
     )
