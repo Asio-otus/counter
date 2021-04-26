@@ -7,6 +7,9 @@
 }
 
 @mixin frame {
+  width: 400px;
+  height: 350px;
+
   background-color: $light-grey-color;
 
   border-radius: $border-radius;
@@ -14,40 +17,13 @@
   filter: $shadow
 }
 
-@mixin btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1 1 50%;
-  padding: .7em 1.4em;
+@mixin display {
+  height: 100%;
+  width: 100%;
+  margin-bottom: 2rem;
 
-  @include font-basic;
-  font-size: 1.4rem;
-
-  border: none;
+  border: 2px solid $medium-grey-color;
   border-radius: $border-radius;
-  filter: $shadow;
-  cursor: pointer;
-
-  &:not(:first-child) {
-  margin-left: 1em
-}
-
-  &:hover {
-    background-color: $main-color;
-    color: $white-color;
-  }
-
-  &.disabled {
-    background-color: $light-grey-color;
-    color: $medium-grey-color;
-    cursor: unset;
-
-    &:hover {
-      background-color: $light-grey-color;
-      color: $medium-grey-color;
-    }
-  }
 }
 
 @mixin errorStyle {
